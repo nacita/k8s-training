@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-wp-pv
+  labels:
+    tier: frontend
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /k8s/nfs-share/wordpress
+    server: 10.10.1.72
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-mysql-pv
+  labels:
+    tier: mysql
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /k8s/nfs-share/mysql
+    server: 10.10.1.72
